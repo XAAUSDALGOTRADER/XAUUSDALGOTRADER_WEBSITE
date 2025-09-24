@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Premium Trading Platform Design System with Metallic Gold Theme
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Dark Premium Theme */
+    --background: 240 10% 3.9%;
+    --foreground: 45 100% 85%;
+
+    --card: 240 10% 6%;
+    --card-foreground: 45 100% 85%;
+
+    --popover: 240 10% 6%;
+    --popover-foreground: 45 100% 85%;
+
+    /* Premium Gold Primary */
+    --primary: 45 100% 65%;
+    --primary-foreground: 240 10% 3.9%;
+    --primary-glow: 45 100% 75%;
+
+    /* Rich Secondary */
+    --secondary: 240 6% 10%;
+    --secondary-foreground: 45 100% 85%;
+
+    --muted: 240 6% 10%;
+    --muted-foreground: 45 20% 65%;
+
+    /* Golden Accent */
+    --accent: 45 95% 58%;
+    --accent-foreground: 240 10% 3.9%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 45 100% 85%;
+
+    --border: 240 6% 20%;
+    --input: 240 6% 15%;
+    --ring: 45 100% 65%;
+
+    --radius: 0.75rem;
+
+    /* Premium Gradients */
+    --gradient-gold: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-dark: linear-gradient(180deg, hsl(var(--background)), hsl(240 10% 6%));
+    --gradient-accent: linear-gradient(90deg, hsl(var(--accent) / 0.1), hsl(var(--primary) / 0.1));
+
+    /* Luxury Shadows */
+    --shadow-gold: 0 10px 40px -10px hsl(var(--primary) / 0.3);
+    --shadow-premium: 0 25px 50px -12px hsl(240 10% 0% / 0.5);
+    --shadow-glow: 0 0 30px hsl(var(--primary-glow) / 0.4);
+
+    /* Trading Chart Colors */
+    --chart-gain: 120 60% 50%;
+    --chart-loss: 0 70% 50%;
+    --chart-neutral: 45 20% 65%;
+
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary/50 rounded-lg;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/70;
+  }
+}
+
+@layer components {
+  /* Trading specific components */
+  .trading-card {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 rounded-lg p-6;
+    box-shadow: var(--shadow-premium);
+  }
+
+  .gold-gradient {
+    background: var(--gradient-gold);
+  }
+
+  .gold-text {
+    @apply bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent;
+  }
+
+  .chart-gain {
+    @apply text-green-400;
+  }
+
+  .chart-loss {
+    @apply text-red-400;
+  }
+
+  .premium-button {
+    @apply bg-gradient-to-r from-primary to-primary-glow text-primary-foreground;
+    @apply shadow-lg hover:shadow-xl transition-all duration-300;
+    @apply hover:scale-105 active:scale-95;
+    box-shadow: var(--shadow-gold);
+  }
+
+  .nav-link {
+    @apply text-muted-foreground hover:text-primary transition-colors duration-200;
+    @apply relative after:content-[''] after:absolute after:w-0 after:h-0.5;
+    @apply after:bottom-0 after:left-0 after:bg-primary after:transition-all after:duration-300;
+    @apply hover:after:w-full;
+  }
+}
