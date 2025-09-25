@@ -11,11 +11,23 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: false,
-    minify: 'terser',
+    sourcemap: false, // Disable source maps for smaller bundle
+    minify: 'terser', // Explicitly use terser
     terserOptions: {
       compress: {
         drop_console: true, // Remove console.log in production
+        drop_debugger: true, // Remove debugger statements
+      },
+      format: {
+        comments: false, // Remove comments
+      }
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'], // Separate vendor chunks
+          ui: ['@/components/ui'] // Separate UI components
+        }
       }
     }
   },
@@ -27,9 +39,5 @@ export default defineConfig({
         changeOrigin: true,
       }
     }
-  },
-  // Add this for Vercel deployment
-  define: {
-    'process.env': process.env
   }
 })
