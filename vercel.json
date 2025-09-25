@@ -3,17 +3,20 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     },
     {
-      "src": "server/**/*.js",
+      "src": "api/**/*.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/$1"
+      "dest": "/api/$1"
     },
     {
       "src": "/downloads/(.*)",
@@ -24,11 +27,6 @@
       "dest": "/dist/$1"
     }
   ],
-  "functions": {
-    "server/**/*.js": {
-      "maxDuration": 30
-    }
-  },
   "env": {
     "NODE_ENV": "production"
   }
