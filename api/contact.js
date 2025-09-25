@@ -1,6 +1,15 @@
 import { emailQueue } from '../server/lib/emailQueue.js';
 
 export default async function handler(req, res) {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL || 'https://xauusdalgotrader.com');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -10,6 +19,12 @@ export default async function handler(req, res) {
 
     if (!name || !email || !message) {
       return res.status(400).json({ error: 'Name, email, and message are required' });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ error: 'Invalid email format' });
     }
 
     // Email content for admin notification
@@ -24,12 +39,12 @@ export default async function handler(req, res) {
     `;
 
     await emailQueue.addToQueue({
-      to: process.env.ADMIN_EMAIL,
+      to: process.env.ADMIN_EMAIL || process.env.EMAIL_USER,
       subject: `New Contact Form: ${name}`,
       html: adminEmailHtml
     });
 
-    // Optional: Send confirmation email to user
+    // Send confirmation email to user
     const userEmailHtml = `
       <h2>Thank you for contacting XAU/USD Algo Trader!</h2>
       <p>Dear ${name},</p>
@@ -46,7 +61,7 @@ export default async function handler(req, res) {
       html: userEmailHtml
     });
 
-    res.json({ message: 'Message sent successfully' });
+    res.status(200).json({ message: 'Message sent successfully' });
 
   } catch (error) {
     console.error('Contact form error:', error);
