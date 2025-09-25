@@ -1,7 +1,11 @@
-const API_BASE_URL = import.meta.env.MODE === 'development' 
-  ? 'http://localhost:3001/api' 
-  : `${import.meta.env.VITE_API_BASE_URL || '/api'}`;
+// const API_BASE_URL = import.meta.env.MODE === 'development' 
+//   ? 'http://localhost:3001/api' 
+//   : `https://xauusdalgotrader-website-pwyz.vercel.app/api`;
 
+const API_BASE_URL = `https://xauusdalgotrader-website-pwyz.vercel.app/api`;
+
+console.log('Running in mode:', import.meta.env.MODE);
+console.log('API Base URL:', API_BASE_URL);
 export interface User {
   id: number;
   name: string;

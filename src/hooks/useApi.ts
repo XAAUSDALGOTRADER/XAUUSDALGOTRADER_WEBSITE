@@ -4,10 +4,11 @@ export const useApi = () => {
   const { toast } = useToast();
 
   const request = async <T>(endpoint: string, options: RequestInit = {}): Promise<T> => {
-    const API_BASE_URL = import.meta.env.MODE === 'development' 
-      ? '/api' 
-      : `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api'}`;
+    // const API_BASE_URL = import.meta.env.MODE === 'development' 
+    //   ? '/api' 
+    //   : `https://xauusdalgotrader-website-pwyz.vercel.app/api`;
 
+    const API_BASE_URL = `https://xauusdalgotrader-website-pwyz.vercel.app/api`;
     const url = `${API_BASE_URL}${endpoint}`;
     
     try {

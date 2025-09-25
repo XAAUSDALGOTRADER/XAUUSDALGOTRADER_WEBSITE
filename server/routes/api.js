@@ -8,11 +8,16 @@ import {
   accountApprovedEmail, 
   accountRejectedEmail 
 } from '../emails/templates.js';
-import premiumRequestRoutes from './premium-request.js';
+
 
 const router = express.Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
-import contactRoutes from './contact.js';
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('JWT_SECRET environment variable is required');
+  // In production, this should throw an error
+  throw new Error('JWT_SECRET environment variable is required');
+}
+
 
 // Authentication middleware
 const authenticateToken = (req, res, next) => {
@@ -839,7 +844,13 @@ router.get('/trading-platform', authenticateToken, (req, res) => {
   });
 });
 
-router.use('/contact', contactRoutes);
-router.use('/premium-request', premiumRequestRoutes);
+// Add CORS headers for Vercel
+router.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', process.env.FRONTEND_URL || '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
+
 
 export default router;
